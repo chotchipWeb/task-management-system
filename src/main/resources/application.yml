@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: Task-Management-System
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://0.0.0.0:5432/task-management
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
