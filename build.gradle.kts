@@ -29,6 +29,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
 
+	//mapStruct
+	implementation("org.mapstruct:mapstruct:1.5.5.Final")
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
 //	implementation("org.flywaydb:flyway-core")
 //    runtimeOnly("org.flywaydb:flyway-database-postgresql")

@@ -2,7 +2,6 @@ package com.chotchip.task.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 

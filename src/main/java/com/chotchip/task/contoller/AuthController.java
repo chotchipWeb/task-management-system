@@ -1,9 +1,7 @@
 package com.chotchip.task.contoller;
 
-import com.chotchip.task.dto.UserRequestDTO;
+import com.chotchip.task.dto.request.UserRequestDTO;
 import com.chotchip.task.entity.User;
-import com.chotchip.task.entity.enums.Role;
-import com.chotchip.task.repository.UserRepository;
 import com.chotchip.task.security.JwtTokenUtil;
 import com.chotchip.task.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController

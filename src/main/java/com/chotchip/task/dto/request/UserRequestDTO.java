@@ -1,4 +1,4 @@
-package com.chotchip.task.dto;
+package com.chotchip.task.dto.request;
 
 import lombok.Data;
 

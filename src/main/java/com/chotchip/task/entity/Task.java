@@ -2,9 +2,12 @@ package com.chotchip.task.entity;
 
 import com.chotchip.task.entity.enums.Priority;
 import com.chotchip.task.entity.enums.Status;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,11 +34,17 @@ public class Task {
     private Status status;
     @Enumerated(EnumType.STRING)
     private Priority priority;
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comment;
     @ManyToOne
     private User author;
     @ManyToOne
     private User executor;
 
+    public void setComment(List<Comment> comments) {
+        this.comment = comments;
+        for (Comment comment : comments) {
+            comment.setTask(this);
+        }
+    }
 }

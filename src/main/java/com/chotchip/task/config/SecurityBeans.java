@@ -25,6 +25,7 @@ public class SecurityBeans {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/user").permitAll()
                         .requestMatchers("/api/tasks/").authenticated()
                         .anyRequest().denyAll()
                 )

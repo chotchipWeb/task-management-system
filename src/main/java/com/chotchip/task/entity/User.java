@@ -26,6 +26,6 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany
+    @OneToMany(mappedBy = "author")
     private List<Task> tasks;
 }
