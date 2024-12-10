@@ -39,7 +39,7 @@ public class TaskService {
     }
 
     public TaskResponseDTO getTaskById(Long id, Authentication authentication) {
-        Task task = taskRepository.findById(id).orElseThrow(RuntimeException::new);
+        Task task = getTask(id);
 
         checkedUserUtil(authentication, task);
 
@@ -85,7 +85,7 @@ public class TaskService {
 
     @Transactional
     public TaskResponseDTO updateTask(Long id, TaskUpdateRequestDTO updateRequestDTO) {
-        Task task = taskRepository.findById(id).orElseThrow(RuntimeException::new);
+        Task task = getTask(id);
         task.setTitle(updateRequestDTO.getTitle());
         task.setDetails(updateRequestDTO.getDetails());
         task.setStatus(updateRequestDTO.getStatus());
@@ -96,13 +96,17 @@ public class TaskService {
 
     @Transactional
     public TaskResponseDTO patchStatusTask(Long id, TaskUpdateStatusRequestDTO status, Authentication authentication) {
-        Task task = taskRepository.findById(id).orElseThrow(RuntimeException::new);
+        Task task = getTask(id);
         checkedUserUtil(authentication, task);
         task.setStatus(status.getStatus());
         return taskMapper.toDTO(task);
     }
 
-    private static void checkedUserUtil(Authentication authentication, Task task) {
+    public Task getTask(Long id) {
+        return taskRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
+    public static void checkedUserUtil(Authentication authentication, Task task) {
         if (!authentication.getAuthorities().stream().findFirst().get().getAuthority().equals("ADMIN")) {
             boolean youTasks = task.getExecutor().getEmail().equals((String) authentication.getPrincipal());
             if (!youTasks) {

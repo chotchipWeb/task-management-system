@@ -1,14 +1,14 @@
 package com.chotchip.task.mapper;
 
-import com.chotchip.task.dto.request.CommentCreateInTaskRequestDTO;
 import com.chotchip.task.dto.response.CommentResponseDTO;
 import com.chotchip.task.entity.Comment;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-
-@Mapper
+//@Mapper(componentModel = "spring")
 public interface CommentMapper {
-//    List<Comment> toListEntity(List<CommentCreateInTaskRequestDTO> dto);
-//    List<CommentResponseDTO> ListResponseEntity(List<Comment> list);
+    @Mapping(target = "author", expression = "java(new UserResponseTaskDTO(comment.getAuthor().getEmail()))")
+    CommentResponseDTO toDTO(Comment comment);
+
 }

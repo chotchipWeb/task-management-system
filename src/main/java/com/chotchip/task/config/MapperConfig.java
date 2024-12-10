@@ -15,8 +15,8 @@ public class MapperConfig {
         return Mappers.getMapper(TaskMapper.class);
     }
 
-    @Bean
-    public CommentMapper commentMapper() {
-        return Mappers.getMapper(CommentMapper.class);
-    }
+//    @Bean
+//    public CommentMapper commentMapper() {
+//        return Mappers.getMapper(CommentMapper.class);
+//    }
 }
