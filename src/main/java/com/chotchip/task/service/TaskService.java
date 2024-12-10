@@ -2,6 +2,8 @@ package com.chotchip.task.service;
 
 import com.chotchip.task.dto.request.CommentCreateInTaskRequestDTO;
 import com.chotchip.task.dto.request.TaskCreateRequestDTO;
+import com.chotchip.task.dto.request.TaskUpdateRequestDTO;
+import com.chotchip.task.dto.request.TaskUpdateStatusRequestDTO;
 import com.chotchip.task.dto.response.CommentResponseDTO;
 import com.chotchip.task.dto.response.TaskResponseDTO;
 import com.chotchip.task.dto.response.UserResponseTaskDTO;
@@ -10,12 +12,12 @@ import com.chotchip.task.entity.Task;
 import com.chotchip.task.entity.User;
 import com.chotchip.task.entity.enums.Priority;
 import com.chotchip.task.entity.enums.Status;
-import com.chotchip.task.mapper.CommentMapper;
 import com.chotchip.task.mapper.TaskMapper;
 import com.chotchip.task.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +37,15 @@ public class TaskService {
         Page<Task> byAuthorOrExecutor = taskRepository.findByAuthorOrExecutor(user, user, page);
         return byAuthorOrExecutor.map(taskMapper::toDTO);
     }
+
+    public TaskResponseDTO getTaskById(Long id, Authentication authentication) {
+        Task task = taskRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        checkedUserUtil(authentication, task);
+
+        return taskMapper.toDTO(task);
+    }
+
 
     //:TODO добавить mapper ы
     @Transactional
@@ -66,10 +77,37 @@ public class TaskService {
                         .map(c -> new
                                 CommentResponseDTO(c.getDetails(), new UserResponseTaskDTO(author.getEmail()))).toList();
         TaskResponseDTO taskResponseDTO =
-                new TaskResponseDTO(save.getTitle(), save.getDetails(), save.getStatus(), save.getPriority()
+                new TaskResponseDTO(save.getId(), save.getTitle(), save.getDetails(), save.getStatus(), save.getPriority()
                         , commentResponseDTOS, new UserResponseTaskDTO(save.getAuthor().getEmail()), new UserResponseTaskDTO(save.getExecutor().getEmail()));
 
         return taskResponseDTO;
     }
 
+    @Transactional
+    public TaskResponseDTO updateTask(Long id, TaskUpdateRequestDTO updateRequestDTO) {
+        Task task = taskRepository.findById(id).orElseThrow(RuntimeException::new);
+        task.setTitle(updateRequestDTO.getTitle());
+        task.setDetails(updateRequestDTO.getDetails());
+        task.setStatus(updateRequestDTO.getStatus());
+        task.setPriority(updateRequestDTO.getPriority());
+
+        return taskMapper.toDTO(task);
+    }
+
+    @Transactional
+    public TaskResponseDTO patchStatusTask(Long id, TaskUpdateStatusRequestDTO status, Authentication authentication) {
+        Task task = taskRepository.findById(id).orElseThrow(RuntimeException::new);
+        checkedUserUtil(authentication, task);
+        task.setStatus(status.getStatus());
+        return taskMapper.toDTO(task);
+    }
+
+    private static void checkedUserUtil(Authentication authentication, Task task) {
+        if (!authentication.getAuthorities().stream().findFirst().get().getAuthority().equals("ADMIN")) {
+            boolean youTasks = task.getExecutor().getEmail().equals((String) authentication.getPrincipal());
+            if (!youTasks) {
+                throw new RuntimeException("tasks not for you");
+            }
+        }
+    }
 }

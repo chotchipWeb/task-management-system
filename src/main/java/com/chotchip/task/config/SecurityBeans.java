@@ -26,7 +26,7 @@ public class SecurityBeans {
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/user").permitAll()
-                        .requestMatchers("/api/tasks/").authenticated()
+                        .requestMatchers("/api/tasks/**").authenticated()
                         .anyRequest().denyAll()
                 )
                 .sessionManagement(sessionManagement ->

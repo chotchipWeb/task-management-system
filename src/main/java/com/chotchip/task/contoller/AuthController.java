@@ -21,7 +21,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody UserRequestDTO user) {
-//        User existingUser = new User(1l, "email.com", "1223", Role.ADMIN, List.of());
         User existingUser = userService.getUserByEmail(user.getEmail());
 
         if (existingUser.getPassword().equals(user.getPassword())) {
