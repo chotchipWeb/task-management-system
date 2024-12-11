@@ -9,6 +9,7 @@ import com.chotchip.task.entity.User;
 import com.chotchip.task.entity.enums.Status;
 import com.chotchip.task.service.TaskService;
 import com.chotchip.task.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/tasks/")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;

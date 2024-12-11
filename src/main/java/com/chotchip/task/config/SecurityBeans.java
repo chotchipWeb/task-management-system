@@ -24,6 +24,7 @@ public class SecurityBeans {
                 .cors(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
+                        .requestMatchers("/webjars/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/user").permitAll()
                         .requestMatchers("/api/tasks/**").authenticated()

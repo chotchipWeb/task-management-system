@@ -3,6 +3,7 @@ package com.chotchip.task.contoller;
 import com.chotchip.task.dto.request.CommentCreateRequestDTO;
 import com.chotchip.task.dto.response.CommentResponseDTO;
 import com.chotchip.task.service.CommentService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/comments/")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;

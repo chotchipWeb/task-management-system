@@ -33,7 +33,6 @@ public class TaskService {
     private final TaskMapper taskMapper;
 
     public Page<TaskResponseDTO> getTaskByUser(User user, PageRequest page) {
-
         Page<Task> byAuthorOrExecutor = taskRepository.findByAuthorOrExecutor(user, user, page);
         return byAuthorOrExecutor.map(taskMapper::toDTO);
     }
