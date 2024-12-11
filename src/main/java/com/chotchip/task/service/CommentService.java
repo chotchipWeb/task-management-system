@@ -22,15 +22,16 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final TaskService taskService;
     private final UserService userService;
-//    private final CommentMapper commentMapper;
+    private final CommentMapper commentMapper;
 
     @Transactional
     public CommentResponseDTO save(CommentCreateRequestDTO createRequestDTO, Authentication authentication) {
-        Task task = taskService.getTask(createRequestDTO.getTaskId());
+        Long taskId = createRequestDTO.getTaskId();
+        Task task = taskService.getTask(taskId);
         User userByEmail = userService.getUserByEmail((String) authentication.getPrincipal());
 
         Comment save = commentRepository.save(new Comment(null, createRequestDTO.getDetails(), task, userByEmail));
-        return new CommentResponseDTO(save.getDetails(), new UserResponseTaskDTO(save.getAuthor().getEmail()));
+        return commentMapper.toDTO(save);
     }
 
 }

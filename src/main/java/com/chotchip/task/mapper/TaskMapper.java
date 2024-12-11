@@ -1,5 +1,6 @@
 package com.chotchip.task.mapper;
 
+import com.chotchip.task.dto.request.TaskCreateRequestDTO;
 import com.chotchip.task.dto.response.TaskResponseDTO;
 import com.chotchip.task.dto.response.UserResponseTaskDTO;
 import com.chotchip.task.entity.Task;
@@ -13,6 +14,10 @@ public interface TaskMapper {
     @Mapping(target = "author", expression = "java(new UserResponseTaskDTO(task.getAuthor().getEmail()))")
     @Mapping(target = "executor", expression = "java(new UserResponseTaskDTO(task.getExecutor().getEmail()))")
     TaskResponseDTO toDTO(Task task);
+
+    @Mapping(target = "executor" ,ignore = true)
+    @Mapping(target = "status", expression = "java(com.chotchip.task.entity.enums.Status.PENDING)")
+    Task toEntity(TaskCreateRequestDTO dto);
 
 
 }

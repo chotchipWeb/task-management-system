@@ -4,11 +4,10 @@ import com.chotchip.task.dto.response.CommentResponseDTO;
 import com.chotchip.task.entity.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
 
-//@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface CommentMapper {
-    @Mapping(target = "author", expression = "java(new UserResponseTaskDTO(comment.getAuthor().getEmail()))")
+    @Mapping(target = "author", expression = "java(new com.chotchip.task.dto.response.UserResponseTaskDTO(comment.getAuthor().getEmail()))")
     CommentResponseDTO toDTO(Comment comment);
 
 }
