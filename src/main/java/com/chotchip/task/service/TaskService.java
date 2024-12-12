@@ -32,7 +32,7 @@ public class TaskService {
     private final UserService userService;
     private final TaskMapper taskMapper;
 
-    public Page<TaskResponseDTO> getTaskByUser( UserEmailRequestDTO emailRequestDTO, PageRequest page) {
+    public Page<TaskResponseDTO> getTaskByUser(UserEmailRequestDTO emailRequestDTO, PageRequest page) {
         User userByEmail = userService.getUserByEmail(emailRequestDTO.getEmail());
         Page<Task> byAuthorOrExecutor = taskRepository.findByExecutor(userByEmail, page);
         return byAuthorOrExecutor.map(taskMapper::toDTO);
@@ -49,7 +49,8 @@ public class TaskService {
 
 
     @Transactional
-    public TaskResponseDTO save(TaskCreateRequestDTO requestDTO, String authorEmail) {
+    public TaskResponseDTO save(TaskCreateRequestDTO requestDTO, Authentication authentication) {
+        String authorEmail = (String) authentication.getPrincipal();
         log.info("User %s created task ".formatted(authorEmail));
         Task entity = taskMapper.toEntity(requestDTO);
         List<CommentCreateInTaskRequestDTO> commentRequest = requestDTO.getComment();

@@ -23,20 +23,22 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO,
                                                       UriComponentsBuilder uriBuilder) {
         UserResponseDTO userDTO = userService.create(userRequestDTO);
         return ResponseEntity
                 .created(uriBuilder
-                .replacePath("/api/user/{email}")
-                .build(Map.of("id", userDTO.getEmail())))
+                        .replacePath("/api/user/{id}")
+                        .build(Map.of("id", userDTO.getEmail())))
                 .body(userDTO);
     }
-//    @GetMapping("/{email}")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<UserResponseDTO> getUser(@PathVariable String email){
-//        return userService.geTUserB(email);
-//    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
 
 }

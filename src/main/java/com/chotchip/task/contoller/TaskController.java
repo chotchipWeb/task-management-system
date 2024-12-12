@@ -5,9 +5,7 @@ import com.chotchip.task.dto.request.TaskUpdateRequestDTO;
 import com.chotchip.task.dto.request.TaskUpdateStatusRequestDTO;
 import com.chotchip.task.dto.request.UserEmailRequestDTO;
 import com.chotchip.task.dto.response.TaskResponseDTO;
-import com.chotchip.task.entity.User;
 import com.chotchip.task.service.TaskService;
-import com.chotchip.task.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,12 +33,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
+
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Page<TaskResponseDTO>> getTasks(
             @RequestParam int page,
             @RequestParam int size,
-           @RequestBody UserEmailRequestDTO userRequest
+            @RequestBody UserEmailRequestDTO userRequest
     ) {
         return ResponseEntity.ok(taskService.getTaskByUser(userRequest, PageRequest.of(page, size)));
     }
@@ -54,7 +53,7 @@ public class TaskController {
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<TaskResponseDTO> createTask(@RequestBody TaskCreateRequestDTO taskCreateRequestDTO, Authentication authentication, UriComponentsBuilder uriBuilder) {
-        TaskResponseDTO task = taskService.save(taskCreateRequestDTO, (String) authentication.getPrincipal());
+        TaskResponseDTO task = taskService.save(taskCreateRequestDTO, authentication);
         return ResponseEntity
                 .created(uriBuilder
                         .replacePath("/api/tasks/{id}")

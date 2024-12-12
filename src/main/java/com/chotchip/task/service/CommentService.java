@@ -1,10 +1,7 @@
 package com.chotchip.task.service;
 
-import com.chotchip.task.dto.request.CommentCreateInTaskRequestDTO;
 import com.chotchip.task.dto.request.CommentCreateRequestDTO;
 import com.chotchip.task.dto.response.CommentResponseDTO;
-import com.chotchip.task.dto.response.TaskResponseDTO;
-import com.chotchip.task.dto.response.UserResponseTaskDTO;
 import com.chotchip.task.entity.Comment;
 import com.chotchip.task.entity.Task;
 import com.chotchip.task.entity.User;

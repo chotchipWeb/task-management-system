@@ -18,7 +18,6 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Optional<com.chotchip.task.entity.User> test = Optional.of( new com.chotchip.task.entity.User(1l, "email.com", "1223", Role.ADMIN, List.of()));
         Optional<com.chotchip.task.entity.User> byEmail = userRepository.findByEmail(username);
         if (byEmail.isPresent()) {
             com.chotchip.task.entity.User user = byEmail.get();

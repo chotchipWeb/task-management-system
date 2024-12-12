@@ -7,7 +7,6 @@ import com.chotchip.task.execption.UserNotFoundException;
 import com.chotchip.task.mapper.UserMapper;
 import com.chotchip.task.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,5 +26,10 @@ public class UserService {
     public UserResponseDTO create(UserRequestDTO userRequestDTO) {
         User entity = userMapper.toEntity(userRequestDTO);
         return userMapper.toDTO(userRepository.save(entity));
+    }
+    public UserResponseDTO getUserById(Long id){
+        return userMapper.toDTO(userRepository
+                .findById(id).orElseThrow( () ->
+                        new UserNotFoundException(id))) ;
     }
 }
