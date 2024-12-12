@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    Page<Task> findByAuthorOrExecutor(User author, User executor, Pageable pageable);
+    Page<Task> findByExecutor( User executor, Pageable pageable);
 }

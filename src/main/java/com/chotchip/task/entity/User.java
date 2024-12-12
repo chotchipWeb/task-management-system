@@ -1,6 +1,7 @@
 package com.chotchip.task.entity;
 
 import com.chotchip.task.entity.enums.Role;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,6 +27,6 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "executor", cascade = CascadeType.ALL)
     private List<Task> tasks;
 }

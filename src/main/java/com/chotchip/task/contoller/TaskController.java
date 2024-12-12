@@ -3,10 +3,9 @@ package com.chotchip.task.contoller;
 import com.chotchip.task.dto.request.TaskCreateRequestDTO;
 import com.chotchip.task.dto.request.TaskUpdateRequestDTO;
 import com.chotchip.task.dto.request.TaskUpdateStatusRequestDTO;
+import com.chotchip.task.dto.request.UserEmailRequestDTO;
 import com.chotchip.task.dto.response.TaskResponseDTO;
-import com.chotchip.task.entity.Task;
 import com.chotchip.task.entity.User;
-import com.chotchip.task.entity.enums.Status;
 import com.chotchip.task.service.TaskService;
 import com.chotchip.task.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,18 +35,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
-    private final UserService userService;
-
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Page<TaskResponseDTO>> getTasks(
             @RequestParam int page,
             @RequestParam int size,
-            Authentication authentication
+           @RequestBody UserEmailRequestDTO userRequest
     ) {
-
-        String email = (String) authentication.getPrincipal();
-        User user = userService.getUserByEmail(email);
-        return ResponseEntity.ok(taskService.getTaskByUser(user, PageRequest.of(page, size)));
+        return ResponseEntity.ok(taskService.getTaskByUser(userRequest, PageRequest.of(page, size)));
     }
 
     @GetMapping("/{id}")
@@ -73,8 +69,18 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<TaskResponseDTO> patchTask(@PathVariable Long id, @RequestBody TaskUpdateStatusRequestDTO status, Authentication authentication) {
-        return ResponseEntity.ok(taskService.patchStatusTask(id,status,authentication));
+        return ResponseEntity.ok(taskService.patchStatusTask(id, status, authentication));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+        taskService.delete(id);
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
 }

@@ -1,11 +1,13 @@
 package com.chotchip.task.service;
 
 import com.chotchip.task.dto.request.UserRequestDTO;
+import com.chotchip.task.dto.response.UserResponseDTO;
 import com.chotchip.task.entity.User;
 import com.chotchip.task.execption.UserNotFoundException;
 import com.chotchip.task.mapper.UserMapper;
 import com.chotchip.task.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,8 @@ public class UserService {
     }
 
     @Transactional
-    public void create(UserRequestDTO userRequestDTO) {
-        userRepository.save(userMapper.toEntity(userRequestDTO));
+    public UserResponseDTO create(UserRequestDTO userRequestDTO) {
+        User entity = userMapper.toEntity(userRequestDTO);
+        return userMapper.toDTO(userRepository.save(entity));
     }
 }

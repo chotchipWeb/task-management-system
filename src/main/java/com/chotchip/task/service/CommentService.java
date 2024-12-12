@@ -28,8 +28,8 @@ public class CommentService {
     public CommentResponseDTO save(CommentCreateRequestDTO createRequestDTO, Authentication authentication) {
         Long taskId = createRequestDTO.getTaskId();
         Task task = taskService.getTask(taskId);
+        TaskService.checkedUserUtil(authentication,task);
         User userByEmail = userService.getUserByEmail((String) authentication.getPrincipal());
-
         Comment save = commentRepository.save(new Comment(null, createRequestDTO.getDetails(), task, userByEmail));
         return commentMapper.toDTO(save);
     }

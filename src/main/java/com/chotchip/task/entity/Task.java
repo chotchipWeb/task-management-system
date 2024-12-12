@@ -32,7 +32,7 @@ public class Task {
     private Status status;
     @Enumerated(EnumType.STRING)
     private Priority priority;
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Comment> comment;
     @ManyToOne
     private User author;
@@ -44,5 +44,14 @@ public class Task {
         for (Comment comment : comments) {
             comment.setTask(this);
         }
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+        author.setTasks(List.of(this));
+    }
+    public void setExecutor(User executor) {
+        this.executor = executor;
+        executor.setTasks(List.of(this));
     }
 }

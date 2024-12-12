@@ -11,13 +11,11 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TaskMapper {
 
-    @Mapping(target = "author", expression = "java(new UserResponseTaskDTO(task.getAuthor().getEmail()))")
-    @Mapping(target = "executor", expression = "java(new UserResponseTaskDTO(task.getExecutor().getEmail()))")
+    @Mapping(target = "author", expression = "java(new com.chotchip.task.dto.response.UserResponseTaskDTO(task.getAuthor().getEmail()))")
+    @Mapping(target = "executor", expression = "java(new com.chotchip.task.dto.response.UserResponseTaskDTO(task.getExecutor().getEmail()))")
     TaskResponseDTO toDTO(Task task);
 
     @Mapping(target = "executor" ,ignore = true)
     @Mapping(target = "status", expression = "java(com.chotchip.task.entity.enums.Status.PENDING)")
     Task toEntity(TaskCreateRequestDTO dto);
-
-
 }
