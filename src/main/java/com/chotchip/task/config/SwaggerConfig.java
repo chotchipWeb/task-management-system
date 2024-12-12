@@ -11,11 +11,12 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "Task Management API",
                 version = "1.0",
-                description = "Для работы с api надо получить токен в auth-controller"
+                description = ""
         )
 )
 @SecurityScheme(
         name = "bearerAuth",
+        description = "Take token in auth-controller client user: test:test, admin user: admin:admin",
         type = SecuritySchemeType.HTTP,
         scheme = "bearer",
         bearerFormat = "JWT"
