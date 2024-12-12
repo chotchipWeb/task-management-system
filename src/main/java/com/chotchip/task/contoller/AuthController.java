@@ -4,6 +4,7 @@ import com.chotchip.task.dto.request.UserRequestDTO;
 import com.chotchip.task.entity.User;
 import com.chotchip.task.security.JwtTokenUtil;
 import com.chotchip.task.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
+    @Operation(summary = "Получить токен аутентификации", description = "Использовать в аутентификации")
     public Map<String, String> login(@RequestBody UserRequestDTO user) {
         User existingUser = userService.getUserByEmail(user.getEmail());
 
