@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "Task Management API",
                 version = "1.0",
-                description = ""
+                description = "Для работы с api надо получить токен в auth-controller"
         )
 )
 @SecurityScheme(

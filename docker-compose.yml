@@ -9,3 +9,11 @@ services:
       - "5432:5432"
     volumes:
       - ./data:/var/lib/postgresql/data
+  app:
+    image: task-management:v2
+    build:
+      context: /
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/task-management
+    ports:
+      - "8080:8080"
