@@ -79,8 +79,9 @@ public class TaskService {
         task.setDetails(updateRequestDTO.getDetails());
         task.setStatus(updateRequestDTO.getStatus());
         task.setPriority(updateRequestDTO.getPriority());
-        log.info("Task successful updated " + task);
-        return taskMapper.toDTO(task);
+        TaskResponseDTO dto = taskMapper.toDTO(task);
+        log.info("Task successful updated "+ dto);
+        return dto;
     }
 
     @Transactional

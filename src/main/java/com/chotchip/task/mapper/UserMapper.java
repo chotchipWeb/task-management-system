@@ -14,7 +14,6 @@ public interface UserMapper {
     @Mapping(target = "tasks", ignore = true)
     User toEntity(UserRequestDTO userRequestDTO);
 
-    @Mapping(target = "role", expression = "java(com.chotchip.task.entity.enums.Role.CLIENT)")
     UserResponseDTO toDTO(User user);
 
 }

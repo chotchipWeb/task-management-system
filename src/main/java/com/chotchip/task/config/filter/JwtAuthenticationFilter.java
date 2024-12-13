@@ -45,6 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 response.getWriter().write("Expired token");
                 return;
             }
+        }else {
             response.setHeader("Authorization","no-token");
         }
         filterChain.doFilter(request, response);

@@ -67,7 +67,6 @@ public class TaskController {
                     )
             ))
     public ResponseEntity<Page<TaskResponseDTO>> getTasks(
-
             @RequestParam(name = "page") int page,
             @RequestParam(name = "size") int size,
             @RequestBody @Valid UserEmailRequestDTO userRequestEmail,

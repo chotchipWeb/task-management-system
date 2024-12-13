@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(printOnlyOnFailure = false)
-//@ActiveProfiles()
 @Transactional
 class TaskControllerIT {
 
@@ -75,7 +74,6 @@ class TaskControllerIT {
 
     @Test
     @Sql(value = {"/sql/createBeforeAll.sql", "/sql/task.sql"})
-    @WithMockUser(username = "clientNotTask.com", authorities = "CLIENT")
     void getTaskById_RequestUserIsClientNotRights_ResponseUserNotRightsException() throws Exception {
         String token = takeTokenUserNotTask();
         MockHttpServletRequestBuilder requestBuilder =
@@ -87,7 +85,9 @@ class TaskControllerIT {
                         content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
                         content().json("""
                                     {
-                                    "message": "User not rights to this task"
+                                      "message": [
+                                        "User not rights to this task"
+                                      ]
                                     }
                                 """)
                 );

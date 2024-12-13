@@ -14,13 +14,14 @@ services:
     networks:
       - app-network
   app:
-    image: task-management:v1
+    image: task-management:v3
     build:
       context: /
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/task-management
     ports:
       - "8080:8080"
+    entrypoint: ["sh", "-c", "sleep 15 && java -jar application.jar"]
     networks:
       - app-network
     depends_on:
