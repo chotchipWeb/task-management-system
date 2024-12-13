@@ -27,6 +27,7 @@ public class SecurityBeans {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/user").permitAll()
                         .requestMatchers("/api/tasks/**").authenticated()
+                        .requestMatchers("/api/user/**").authenticated()
                         .requestMatchers("/api/comments/").authenticated()
                         .anyRequest().denyAll()
                 )

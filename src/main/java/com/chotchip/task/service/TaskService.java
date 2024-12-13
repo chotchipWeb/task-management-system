@@ -9,6 +9,7 @@ import com.chotchip.task.dto.response.TaskResponseDTO;
 import com.chotchip.task.entity.Comment;
 import com.chotchip.task.entity.Task;
 import com.chotchip.task.entity.User;
+import com.chotchip.task.execption.TaskNotFoundException;
 import com.chotchip.task.execption.UserNotRightsException;
 import com.chotchip.task.mapper.TaskMapper;
 import com.chotchip.task.repository.TaskRepository;
@@ -99,7 +100,8 @@ public class TaskService {
     }
 
     public Task getTask(Long id) {
-        return taskRepository.findById(id).orElseThrow(RuntimeException::new);
+        return taskRepository.findById(id).orElseThrow(() ->
+                new TaskNotFoundException(String.valueOf(id)));
     }
 
     // Проверяет пользователя ли эта задача

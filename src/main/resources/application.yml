@@ -4,7 +4,7 @@ spring:
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
   datasource:
     url: jdbc:postgresql://0.0.0.0:5432/task-management

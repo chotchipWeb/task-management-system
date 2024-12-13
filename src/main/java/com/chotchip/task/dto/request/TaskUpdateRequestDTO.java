@@ -16,7 +16,6 @@ public class TaskUpdateRequestDTO {
     @NotEmpty
     private String title;
     private String details;
-    @NotEmpty
     @NotNull
     private Status status;
     @NotNull

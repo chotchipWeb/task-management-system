@@ -1,3 +1,4 @@
+name: Test
 services:
   db:
     image: postgres:16-alpine
@@ -8,13 +9,22 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres/sql/data.sql/:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - app-network
   app:
-    image: task-management:v2
+    image: task-management:v1
     build:
       context: /
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/task-management
-#      SPRING_PROFILES_ACTIVE: init
     ports:
       - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - db
+networks:
+  app-network:
+    driver: bridge

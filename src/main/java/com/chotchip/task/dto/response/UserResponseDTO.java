@@ -1,5 +1,6 @@
 package com.chotchip.task.dto.response;
 
+import com.chotchip.task.entity.enums.Role;
 import com.chotchip.task.entity.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserResponseDTO {
     private String email;
-    private Status status;
+    private Role role;
 }

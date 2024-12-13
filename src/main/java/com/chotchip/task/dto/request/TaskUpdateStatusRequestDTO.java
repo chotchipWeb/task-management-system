@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskUpdateStatusRequestDTO {
-    @NotEmpty
+
     @NotNull
     private Status status;
 }
