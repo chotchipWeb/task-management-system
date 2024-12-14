@@ -1,7 +1,7 @@
 insert into users(email, password, role) values
-                                             ('admin.com','123','ADMIN'),
-                                             ('client.com','123','CLIENT'),
-                                             ('clientNotTask.com','123','CLIENT');
+                                             ('admin@email.com','123','ADMIN'),
+                                             ('client@email.com','123','CLIENT'),
+                                             ('clientNotTask@email.com','123','CLIENT');
 insert into task(
     title, details, status, priority, author_id, executor_id
 ) values ('title','details','PENDING','LOW',1,2);

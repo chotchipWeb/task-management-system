@@ -87,7 +87,6 @@ public class TaskController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Создание задачи",
             description = "Доступна только с правами Администратора, должен быть хотя бы один пользователь, " +
-                    "статус должен быть один из этого списка: PENDING, IN_PROGRESS, COMPLETED," +
                     "приоритет должен быть один из этого списка: HIGH, MIDDLE, LOW")
     public ResponseEntity<TaskResponseDTO> createTask(@RequestBody @Valid TaskCreateRequestDTO taskCreateRequestDTO,
                                                       Authentication authentication,

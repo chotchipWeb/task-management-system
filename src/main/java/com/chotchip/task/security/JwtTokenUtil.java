@@ -7,8 +7,18 @@ import java.util.Date;
 
 public class JwtTokenUtil {
 
-    private final static String SECRET_KEY = "94E6D2B2F2B34E9AD2E8706A35814E39D859135BEBBEBCF5FD91AFEB0D1330593FD000DF2AE81D9705E9358DD3C11A95CAC9A1389ACE02BD0EEB86B10FABD681";
-    private final static  long EXPIRATION_TIME = 3600000L;
+    private static final String SECRET_KEY;
+    private static final long EXPIRATION_TIME;
+
+    static {
+        SECRET_KEY = ApplicationContextProvider.getApplicationContext()
+                .getEnvironment()
+                .getProperty("jwt.SECRET_KEY");
+        EXPIRATION_TIME = Long.parseLong(ApplicationContextProvider.getApplicationContext()
+                .getEnvironment()
+                .getProperty("jwt.EXPIRATION_TIME"));
+    }
+
     public static String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)

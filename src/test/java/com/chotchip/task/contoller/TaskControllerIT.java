@@ -1,12 +1,12 @@
 package com.chotchip.task.contoller;
 
+import com.chotchip.task.dto.response.TokenResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -14,8 +14,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.Map;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,15 +54,15 @@ class TaskControllerIT {
                                                 {
                                                     "details": "details in title 1",
                                                     "author": {
-                                                        "email": "admin.com"
+                                                        "email": "admin@email.com"
                                                     }
                                                 }
                                             ],
                                             "author": {
-                                                "email": "admin.com"
+                                                "email": "admin@email.com"
                                             },
                                             "executor": {
-                                                "email": "client.com"
+                                                "email": "client@email.com"
                                             }
                                         }
                                                                                 """
@@ -111,7 +109,7 @@ class TaskControllerIT {
                                 "comment": [
                                     {"details":"comment details"}
                                 ],
-                                "executor": "client.com"
+                                "executor": "client@email.com"
                                 }
                                 """)
                         .header(HttpHeaders.AUTHORIZATION, token);
@@ -131,15 +129,15 @@ class TaskControllerIT {
                                                 {
                                                     "details": "comment details",
                                                     "author": {
-                                                        "email": "admin.com"
+                                                        "email": "admin@email.com"
                                                     }
                                                 }
                                             ],
                                             "author": {
-                                                "email": "admin.com"
+                                                "email": "admin@email.com"
                                             },
                                             "executor": {
-                                                "email": "client.com"
+                                                "email": "client@email.com"
                                             }
                                         }
                                 """)
@@ -152,14 +150,14 @@ class TaskControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "email": "admin.com",
+                                "email": "admin@email.com",
                                 "password": "123"
                                 }
                                 """);
         MvcResult mvcResult = mockMvc.perform(requestBuilderGetJWTToken).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        Map<String,String> map = objectMapper.readValue(result, Map.class);
-        return "Bearer " + map.get("token");
+        TokenResponse tokenResponse = objectMapper.readValue(result, TokenResponse.class);
+        return "Bearer " + tokenResponse.getToken();
     }
 
     private String takeTokenUserNotTask() throws Exception {
@@ -168,14 +166,14 @@ class TaskControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "email": "clientNotTask.com",
+                                "email": "clientNotTask@email.com",
                                 "password": "123"
                                 }
                                 """);
         MvcResult mvcResult = mockMvc.perform(requestBuilderGetJWTToken).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        Map<String,String> map = objectMapper.readValue(result, Map.class);
-        return "Bearer " + map.get("token");
+        TokenResponse tokenResponse = objectMapper.readValue(result, TokenResponse.class);
+        return "Bearer " + tokenResponse.getToken();
     }
 
 

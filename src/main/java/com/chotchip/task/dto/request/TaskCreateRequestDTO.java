@@ -1,6 +1,8 @@
 package com.chotchip.task.dto.request;
 
 import com.chotchip.task.entity.enums.Priority;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,5 +25,7 @@ public class TaskCreateRequestDTO {
     @NotNull
     private Priority priority;
     private List<CommentCreateInTaskRequestDTO> comment;
+    @Schema(description = "Email пользователя", example = "test@email.com")
+    @Email
     private String executor;
 }
