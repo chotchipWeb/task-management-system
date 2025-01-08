@@ -13,18 +13,39 @@ services:
     networks:
       - app-network
   app:
-    image: task-management:v5
+    image: task-management:v8
     build:
       context: /
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/task-management
     ports:
       - "8080:8080"
-    entrypoint: ["sh", "-c", "sleep 17 && java -jar application.jar"]
+    entrypoint: [ "sh", "-c", "sleep 17 && java -jar application.jar" ]
     networks:
       - app-network
     depends_on:
       - db
+# Metrics
+  prometheus:
+    image: docker.io/prom/prometheus:latest
+    networks:
+      - app-network
+    hostname: prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - D:\web\project\Task-Management-System\Task-Management-System\metrics\prometheus.yml:/etc/prometheus/prometheus.yml
+  grafana:
+    image: docker.io/grafana/grafana:latest
+    networks:
+      - app-network
+    hostname: grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - D:\web\project\Task-Management-System\Task-Management-System\metrics\storage:/var/lib/grafana
 networks:
   app-network:
     driver: bridge

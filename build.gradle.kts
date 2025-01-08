@@ -36,18 +36,25 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
     // validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
-
+    //security JWT
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-    
+    // DB
     runtimeOnly("org.postgresql:postgresql")
     //test for db
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:postgresql")
+    // test app
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // metrics
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.micrometer:micrometer-core")
+    implementation("io.micrometer:micrometer-registry-prometheus")
+
 }
 
 tasks.withType<Test> {

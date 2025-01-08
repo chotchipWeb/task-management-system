@@ -4,7 +4,6 @@ import com.chotchip.task.dto.request.UserRequestDTO;
 import com.chotchip.task.dto.response.UserResponseDTO;
 import com.chotchip.task.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
