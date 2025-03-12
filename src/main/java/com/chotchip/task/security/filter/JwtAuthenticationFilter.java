@@ -1,4 +1,4 @@
-package com.chotchip.task.config.filter;
+package com.chotchip.task.security.filter;
 
 import com.chotchip.task.security.JwtTokenUtil;
 import com.chotchip.task.service.UserDetailsService;
