@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final UserService userService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/login")
     @Operation(summary = "Получить токен аутентификации", description = "Использовать в аутентификации ADMIN admin@email.com:admin, CLIENT test@email.com:test",
@@ -39,7 +40,7 @@ public class AuthController {
         User existingUser = userService.getUserByEmail(user.getEmail());
 
         if (existingUser.getPassword().equals(user.getPassword())) {
-            String token = JwtTokenUtil.generateToken(existingUser.getEmail());
+            String token = jwtTokenUtil.generateToken(existingUser.getEmail());
 
             return ResponseEntity.ok(new TokenResponse(token));
         } else {

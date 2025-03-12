@@ -2,47 +2,53 @@ package com.chotchip.task.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
+@Setter
+@Getter
 public class JwtTokenUtil {
 
-    private static final String SECRET_KEY;
-    private static final long EXPIRATION_TIME;
+    private final JWTConfigurationProperties jwtConfigurationProperties;
+    private String secretKey;
+    private long expirationTime;
 
-    static {
-        SECRET_KEY = ApplicationContextProvider.getApplicationContext()
-                .getEnvironment()
-                .getProperty("jwt.SECRET_KEY");
-        EXPIRATION_TIME = Long.parseLong(ApplicationContextProvider.getApplicationContext()
-                .getEnvironment()
-                .getProperty("jwt.EXPIRATION_TIME"));
+    @Autowired
+    public JwtTokenUtil(JWTConfigurationProperties jwtConfigurationProperties) {
+        this.jwtConfigurationProperties = jwtConfigurationProperties;
+        setSecretKey(jwtConfigurationProperties.getSecretKey());
+        setExpirationTime(Long.parseLong(jwtConfigurationProperties.getExpirationTime()));
     }
 
-    public static String generateToken(String username) {
+    public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
-    public static String extractUsername(String token) {
+    public String extractUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
 
-    public static boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpirationDate(token).before(new Date());
     }
 
-    private static Date extractExpirationDate(String token) {
+    private Date extractExpirationDate(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody()
                 .getExpiration();

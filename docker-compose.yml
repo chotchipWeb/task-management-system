@@ -13,7 +13,7 @@ services:
     networks:
       - app-network
   app:
-    image: task-management:v8
+    image: task-management:v9
     build:
       context: /
     environment:

@@ -21,6 +21,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -30,8 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
             try {
-                if (!JwtTokenUtil.isTokenExpired(token)) {
-                    String username = JwtTokenUtil.extractUsername(token);
+                if (!jwtTokenUtil.isTokenExpired(token)) {
+                    String username = jwtTokenUtil.extractUsername(token);
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     if (username != null) {
                         UsernamePasswordAuthenticationToken authentication =
@@ -45,8 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 response.getWriter().write("Expired token");
                 return;
             }
-        }else {
-            response.setHeader("Authorization","no-token");
+        } else {
+            response.setHeader("Authorization", "no-token");
         }
         filterChain.doFilter(request, response);
     }
